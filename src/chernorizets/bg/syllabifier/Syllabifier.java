@@ -61,8 +61,25 @@ public class Syllabifier {
             return (rightVowel - 2);
         }
 
-        // TODO: implement me
-        return leftVowel;
+        List<Sonority> sonorities = SonorityModel.getSonorityModel(word, leftVowel + 1, rightVowel);
+        return findRisingSonorityBreak(sonorities);
+    }
+
+    // Find the first index where we break from the rule of rising sonority
+    private int findRisingSonorityBreak(List<Sonority> sonorities) {
+        int prevRank = -1;
+
+        for (Sonority curr : sonorities) {
+            if (curr.rank() <= prevRank) {
+                // Found a break.
+                return curr.firstIndex();
+            }
+
+            prevRank = curr.rank();
+        }
+
+        // There was no rising sonority break. Start syllable at first index.
+        return sonorities.get(0).firstIndex();
     }
 
     private String normalize(String word) {

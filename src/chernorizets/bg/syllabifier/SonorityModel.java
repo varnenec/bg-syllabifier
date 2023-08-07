@@ -25,7 +25,8 @@ public class SonorityModel {
                 }
 
                 sonorities.add(new Sonority(getSonorityRank('д'), i));
-            } else {
+            } else if (!LetterClassifier.isPalatalizer(curr)) {
+                // Skip over 'ь' since it doesn't change the sonority.
                 sonorities.add(new Sonority(getSonorityRank(curr), i));
             }
         }
