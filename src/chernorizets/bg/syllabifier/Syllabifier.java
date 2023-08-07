@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Syllabifier {
+
     public List<String> syllabify(String word) {
         String norm = normalize(word);
 
@@ -44,7 +45,7 @@ public class Syllabifier {
         return syllables;
     }
 
-    int findSyllableOnsetIdx(String word, int leftVowel, int rightVowel) {
+    private int findSyllableOnsetIdx(String word, int leftVowel, int rightVowel) {
         int consClusterLen = rightVowel - leftVowel - 1;
 
         // No consonants - syllable starts on rightVowel
@@ -55,10 +56,15 @@ public class Syllabifier {
 
         // ---> Two or more consonants between the vowels <---
 
-        // 'щр' is a syllable onset when in front of a vowel
-        // otherwise, it belongs to the previous syllable
-        if (word.charAt(rightVowel - 2) == 'щ' && word.charAt(rightVowel - 1) == 'р') {
-            return (rightVowel - 2);
+        // 'щр' is a syllable onset when in front of a vowel.
+        // Although 'щ' + sonorant technically follows rising sonority, syllables
+        // like щнV, щлV etc. are unnatural and incorrect.
+        if (word.charAt(rightVowel - 2) == 'щ') {
+            char penult = word.charAt(rightVowel - 1);
+
+            if (penult == 'р') return (rightVowel - 2);
+
+            if (LetterClassifier.isSonorant(penult)) return (rightVowel - 1);
         }
 
         List<Sonority> sonorities = SonorityModel.getSonorityModel(word, leftVowel + 1, rightVowel);

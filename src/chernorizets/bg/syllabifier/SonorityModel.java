@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SonorityModel {
+
     public static List<Sonority> getSonorityModel(String word, int startIdx, int endIdx) {
         List<Sonority> sonorities = new ArrayList<>();
 
