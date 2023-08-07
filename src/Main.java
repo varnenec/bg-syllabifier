@@ -1,7 +1,10 @@
+import chernorizets.bg.syllabifier.Sonority;
+import chernorizets.bg.syllabifier.SonorityModel;
 import chernorizets.bg.syllabifier.Syllabifier;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
     static List<String> testCases = Arrays.asList(
@@ -20,6 +23,12 @@ public class Main {
         testCases.stream()
                 .map(Main::formatSyllables)
                 .forEach(System.out::println);
+
+        System.out.println("\n\n");
+
+        testCases.stream()
+                .map(Main::formatSonorityModel)
+                .forEach(System.out::println);
     }
 
     private static String formatSyllables(String word) {
@@ -28,5 +37,16 @@ public class Main {
         return String.format("%s --> %s",
                 word,
                 String.join("-", syllabifier.syllabify(word)));
+    }
+
+    private static String formatSonorityModel(String word) {
+        List<Sonority> sonorityModel = SonorityModel.getSonorityModel(word, 0, word.length());
+        List<String> ranks = sonorityModel.stream()
+                .map(s -> String.valueOf(s.rank()))
+                .collect(Collectors.toList());
+
+        return String.format("%s --> %s",
+                word,
+                String.join("", ranks));
     }
 }
