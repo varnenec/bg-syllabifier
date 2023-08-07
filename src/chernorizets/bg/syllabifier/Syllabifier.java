@@ -18,39 +18,51 @@ public class Syllabifier {
     private List<String> syllabifyPoly(String word) {
         List<String> syllables = new ArrayList<>();
 
-        int firstVowel = -1; int prevSylStart = 0;
+        int prevVowel = -1; int prevOnset = 0;
         for (int i = 0; i < word.length(); i++) {
             if (LetterClassifier.isVowel(word.charAt(i))) {
                 // A vowel, yay!
-                if (firstVowel == -1) {
-                    firstVowel = i;
+                if (prevVowel == -1) {
+                    prevVowel = i;
                     continue;
                 }
 
                 // This is not the first vowel we're seeing.
                 // Determine the syllable onset within the
                 // consonants between the first vowel and this one.
-                int offset = syllableStartOffset(word, firstVowel + 1, i);
-                int newSylStart = firstVowel + offset;
-                syllables.add(word.substring(prevSylStart, newSylStart));
+                int currOnset = findSyllableOnsetIdx(word, prevVowel, i);
+                syllables.add(word.substring(prevOnset, currOnset));
 
-                firstVowel = i;
-                prevSylStart = newSylStart;
+                prevVowel = i;
+                prevOnset = currOnset;
             }
         }
 
         // Add the last syllable
-        syllables.add(word.substring(prevSylStart));
+        syllables.add(word.substring(prevOnset));
 
         return syllables;
     }
 
-    int syllableStartOffset(String word, int firstCons, int onePastLastCons) {
-        int consClusterLen = onePastLastCons - firstCons - 1;
-        if (consClusterLen <= 1) return consClusterLen;
+    int findSyllableOnsetIdx(String word, int leftVowel, int rightVowel) {
+        int consClusterLen = rightVowel - leftVowel - 1;
+
+        // No consonants - syllable starts on rightVowel
+        if (consClusterLen == 0) return  rightVowel;
+
+        // Single consonant between two vowels - starts a syllable
+        if (consClusterLen == 1) return leftVowel + 1;
+
+        // ---> Two or more consonants between the vowels <---
+
+        // 'щр' is a syllable onset when in front of a vowel
+        // otherwise, it belongs to the previous syllable
+        if (word.charAt(rightVowel - 2) == 'щ' && word.charAt(rightVowel - 1) == 'р') {
+            return (rightVowel - 2);
+        }
 
         // TODO: implement me
-        return 0;
+        return leftVowel;
     }
 
     private String normalize(String word) {

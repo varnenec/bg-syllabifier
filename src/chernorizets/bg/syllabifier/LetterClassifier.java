@@ -43,6 +43,13 @@ class LetterClassifier {
         return SONORANTS.contains(ch);
     }
 
+    /*
+     * Opposite of sonorant.
+     */
+    static boolean isObstruent(char ch) {
+        return isStop(ch) || isFricative(ch) || isAffricate(ch);
+    }
+
     static boolean isStop(char ch) {
         return STOPS.contains(ch);
     }
