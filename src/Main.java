@@ -1,60 +1,108 @@
-import chernorizets.bg.syllabifier.Sonority;
-import chernorizets.bg.syllabifier.SonorityModel;
 import chernorizets.bg.syllabifier.Syllabifier;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+class TestCase {
+    final String heading;
+    final List<String> examples;
+
+    TestCase(String heading, String ... examples) {
+        this.heading = heading;
+        this.examples = Arrays.asList(examples);
+    }
+}
+
+class TestCaseRunner {
+    private final Syllabifier syllabifier = new Syllabifier();
+
+    void runTests(List<TestCase> testCases) {
+        for (var test : testCases) {
+            System.out.println(test.heading + ":");
+
+            test.examples.forEach(example -> {
+                var formatted = String.format("* %s --> %s",
+                        example,
+                        String.join("-", syllabifier.syllabify(example)));
+
+                System.out.println(formatted);
+            });
+
+            System.out.println();
+        }
+    }
+}
 
 public class Main {
-    static List<String> testCases = Arrays.asList(
-            "в", "с", "у", "о", "ѝ",
-            "аз", "ти", "той", "тя",
-            "във", "със", "принц", "спринт", "глист",
-            "ами", "ала", "ако", "уви", "или",
-            "саламура", "барабан", "сполука", "щавя", "стрина",
-            "старицата", "получените", "подобаващите", "безименен", "изопачавам",
-            "койот", "майонеза", "пейоративен", "майор",
-            "воал", "маоизъм", "феерия", "воайор", "миокард",
-            "нащрек", "поощрявам", "защриховам", "поощрителен",
-            "джудже", "суджук", "манджа", "калайджия", "авджия",
-            "бульон", "фризьор", "кьопоолу", "шедьовър", "гьозум", "ликьор",
-            "сестра", "пленник", "майка", "преодолея", "звезда", "спринцовка", "царство", "профашистки",
-            "бързо", "малко", "партия", "гледка", "крачка", "цедка", "гланцов", "бездомен", "откачвам",
-            "нравствен", "мандраджия", "мизансцен", "пепелник", "пилци",
-            "аятолах", "авария", "позиции", "хазяи", "дерибеи", "аншоа",
-            "свинщина", "общност", "всъщност", "помощник", "чорапогащник", "нощница", "чудовищност", "изщракване",
-            "странство", "пространство", "ядро", "посвикна", "робство", "транспорт", "бездна", "поощрявам"
+
+    static final List<TestCase> TEST_CASES = Arrays.asList(
+            new TestCase("Single-letter words",
+                    "в", "с", "у", "о", "ѝ"
+            ),
+            new TestCase("Simple monosyllabic words",
+                    "аз", "ти", "той", "тя", "във", "със"
+            ),
+            new TestCase("More complex monosyllabic words",
+                    "принц", "спринт", "глист", "скункс"
+            ),
+            new TestCase("Single consonant between two vowels: 3-letter words",
+                    "ами", "ала", "ако", "уви", "или"
+            ),
+            new TestCase("Single consonant between two vowels: stops and fricatives",
+                    "саламура", "барабан", "сполука", "щавя", "стрина", "когато"
+            ),
+            new TestCase("Single consonant between two vowels: щ, and single-letter affricates",
+                    "старицата", "получените", "подобаващите", "обучаващите"
+            ),
+            new TestCase("Single consonant between two vowels: дж",
+                    "джудже", "суджук", "дамаджана", "джаджите"
+            ),
+            new TestCase("Single consonant between two vowels: й",
+                    "койот", "майонеза", "пейоративен", "майор"
+            ),
+            new TestCase("Single consonant between two vowels: morphological prefixes get split",
+                    "безименен", "изопачавам", "отивам", "разоран"
+            ),
+            new TestCase("Single consonant between two vowels: palatalized by ь",
+                    "бульон", "фризьор", "шедьовър", "гьозум", "ликьор"
+            ),
+            new TestCase("Zero consonants between two vowels: at most one elsewhere in word",
+                    "воал", "маоизъм", "феерия", "воайор", "миокард", "кьопоолу",
+                    "аятолах", "авария", "позиции", "хазяи", "дерибеи", "преодолея"
+            ),
+            new TestCase("Two or more consonants between two vowels: щр",
+                    "нащрек", "поощрявам", "защриховам", "поощрителен",
+                    "изщракване", "Вайерщрас", "Кьонигщрасе"
+            ),
+            new TestCase("Two or more consonants between two vowels: щ + other sonorant before vowel",
+                    "общност", "всъщност", "помощник", "чорапогащник", "нощница",
+                    "чудовищност", "немощливо", "съобщавам", "въобще"
+            ),
+            new TestCase("Two or more consonants between two vowels: дж affricate present",
+                    "манджа", "калайджия", "авджия", "изджвака"
+            ),
+            new TestCase("Two or more consonants between two vowels: adjacent sonorants or stops",
+                    "пленник", "майка", "профашистки", "гледка", "крачка", "цедка"
+            ),
+            new TestCase("Two consonants between two vowels: other",
+                    "звезда", "спринцовка", "бързо", "малко", "партия", "гланцов",
+                    "пепелник", "пилци", "аншоа", "ядро"
+
+            ),
+            new TestCase("Complex consonant clusters: general",
+                    "сестра", "царство", "нравствен", "мандраджия", "мизансцен",
+                    "странство", "пространство", "робство", "транспорт"
+            ),
+            new TestCase("Complex consonant clusters: morphological prefixes",
+                    "бездомен", "бездна",
+                    "откачвам"
+            ),
+            new TestCase("Consonant cluster not split: св", "посвикна")
     );
 
     public static void main(String[] args) {
-        testCases.stream()
-                .map(Main::formatSyllables)
-                .forEach(System.out::println);
+        var testRunner = new TestCaseRunner();
 
-        System.out.println("\n\n");
-
-        testCases.stream()
-                .map(Main::formatSonorityModel)
-                .forEach(System.out::println);
-    }
-
-    private static String formatSyllables(String word) {
-        Syllabifier syllabifier = new Syllabifier();
-
-        return String.format("%s --> %s",
-                word,
-                String.join("-", syllabifier.syllabify(word)));
-    }
-
-    private static String formatSonorityModel(String word) {
-        List<Sonority> sonorityModel = SonorityModel.getSonorityModel(word, 0, word.length());
-        List<String> ranks = sonorityModel.stream()
-                .map(s -> String.valueOf(s.rank()))
-                .collect(Collectors.toList());
-
-        return String.format("%s --> %s",
-                word,
-                String.join("", ranks));
+        testRunner.runTests(TEST_CASES);
     }
 }
