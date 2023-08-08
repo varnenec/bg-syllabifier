@@ -27,7 +27,7 @@ public class Syllabifier {
     );
 
     public List<String> syllabify(String word) {
-        String norm = normalize(word);
+        var norm = normalize(word);
 
         if (norm.length() == 0) return List.of();
 
@@ -38,7 +38,7 @@ public class Syllabifier {
     }
 
     private List<String> syllabifyPoly(String word) {
-        List<String> syllables = new ArrayList<>();
+        var syllables = new ArrayList<String>();
 
         int prevVowel = -1; int prevOnset = 0;
         for (int i = 0; i < word.length(); i++) {
@@ -75,22 +75,14 @@ public class Syllabifier {
         // Single consonant between two vowels - starts a syllable
         if (nCons == 1) return leftVowel + 1;
 
-        // ---> Two or more consonants between the vowels <---
-
-        // 'щр' is a syllable onset when in front of a vowel.
-        // Although 'щ' + sonorant technically follows rising sonority, syllables
-        // like щнV, щлV etc. are unnatural and incorrect.
-        if (word.charAt(rightVowel - 2) == 'щ') {
-            char penult = word.charAt(rightVowel - 1);
-
-            if (penult == 'р') return (rightVowel - 2);
-
-            if (LetterClassifier.isSonorant(penult)) return (rightVowel - 1);
-        }
-
-        List<Sonority> sonorities = SonorityModel.getSonorityModel(word, leftVowel + 1, rightVowel);
+        // Two or more consonants between the vowels. Find the point (if any)
+        // where we break from rising sonority, and treat it as the tentative
+        // onset of a new syllable.
+        var sonorities = SonorityModel.getSonorityModel(word, leftVowel + 1, rightVowel);
         int sonorityBreak = findRisingSonorityBreak(sonorities);
 
+        // Apply exceptions to the rising sonority principle to avoid
+        // unnatural-sounding syllables.
         return fixupSyllableOnset(word, leftVowel, sonorityBreak, rightVowel);
     }
 
@@ -112,8 +104,20 @@ public class Syllabifier {
     }
 
     private int fixupSyllableOnset(String word, int leftVowel, int sonorityBreak, int rightVowel) {
+        // 'щр' is a syllable onset when in front of a vowel.
+        // Although 'щ' + sonorant technically follows rising sonority, syllables
+        // like щнV, щлV etc. are unnatural and incorrect. In such cases, we treat
+        // the sonorant as the onset of the next syllable.
+        if (word.charAt(rightVowel - 2) == 'щ') {
+            char penult = word.charAt(rightVowel - 1);
+
+            if (penult == 'р') return (rightVowel - 2);
+
+            if (LetterClassifier.isSonorant(penult)) return (rightVowel - 1);
+        }
+
         // Check for situations where we shouldn't break the cluster.
-        boolean matchFound = SONORITY_EXCEPTION_KEEP.stream().anyMatch(
+        var matchFound = SONORITY_EXCEPTION_KEEP.stream().anyMatch(
                 cluster -> matches(word, cluster, leftVowel + 1, rightVowel)
         );
 
@@ -129,7 +133,6 @@ public class Syllabifier {
             int offset = SONORITY_EXCEPTION_BREAK.get(cluster);
             return leftVowel + 1 + offset;
         }).orElse(sonorityBreak);
-
     }
 
     private String normalize(String word) {

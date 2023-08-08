@@ -6,7 +6,7 @@ import java.util.List;
 public class SonorityModel {
 
     public static List<Sonority> getSonorityModel(String word, int startIdx, int endIdx) {
-        List<Sonority> sonorities = new ArrayList<>();
+        var sonorities = new ArrayList<Sonority>();
 
         for (int i = startIdx; i < endIdx; i++) {
             char curr = word.charAt(i);
