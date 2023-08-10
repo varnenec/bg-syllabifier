@@ -1,4 +1,4 @@
-Single-letter words:
+1. Single-letter words
 * а --> а
 * в --> в
 * е --> е
@@ -8,7 +8,7 @@ Single-letter words:
 * с --> с
 * у --> у
 
-Simple monosyllabic words:
+2. Simple monosyllabic words
 * аз --> аз
 * ти --> ти
 * той --> той
@@ -16,20 +16,20 @@ Simple monosyllabic words:
 * във --> във
 * със --> със
 
-More complex monosyllabic words:
+3. More complex monosyllabic words
 * принц --> принц
 * спринт --> спринт
 * глист --> глист
 * скункс --> скункс
 
-Single consonant between two vowels: 3-letter words:
+4. Single consonant between two vowels: 3-letter words
 * ами --> а-ми
 * ала --> а-ла
 * ако --> а-ко
 * уви --> у-ви
 * или --> и-ли
 
-Single consonant between two vowels: stops and fricatives:
+5. Single consonant between two vowels: stops and fricatives
 * саламура --> са-ла-му-ра
 * барабан --> ба-ра-бан
 * сполука --> спо-лу-ка
@@ -37,38 +37,38 @@ Single consonant between two vowels: stops and fricatives:
 * стрина --> стри-на
 * когато --> ко-га-то
 
-Single consonant between two vowels: щ, and single-letter affricates:
+6. Single consonant between two vowels: щ, and single-letter affricates
 * старицата --> ста-ри-ца-та
 * получените --> по-лу-че-ни-те
 * подобаващите --> по-до-ба-ва-щи-те
 * обучаващите --> о-бу-ча-ва-щи-те
 
-Single consonant between two vowels: дж:
+7. Single consonant between two vowels: дж
 * джудже --> джу-дже
 * суджук --> су-джук
 * дамаджана --> да-ма-джа-на
 * джаджите --> джа-джи-те
 
-Single consonant between two vowels: й:
+8. Single consonant between two vowels: й
 * койот --> ко-йот
 * майонеза --> ма-йо-не-за
 * пейоративен --> пе-йо-ра-ти-вен
 * майор --> ма-йор
 
-Single consonant between two vowels: morphological prefixes get split:
+9. Single consonant between two vowels: morphological prefixes get split
 * безименен --> бе-зи-ме-нен
 * изопачавам --> и-зо-па-ча-вам
 * отивам --> о-ти-вам
 * разоран --> ра-зо-ран
 
-Single consonant between two vowels: palatalized by ь:
+10. Single consonant between two vowels: palatalized by ь
 * бульон --> бу-льон
 * фризьор --> фри-зьор
 * шедьовър --> ше-дьо-вър
 * гьозум --> гьо-зум
 * ликьор --> ли-кьор
 
-Zero consonants between two vowels: at most one elsewhere in word:
+11. Zero consonants between two vowels: at most one elsewhere in word
 * воал --> во-ал
 * маоизъм --> ма-о-и-зъм
 * феерия --> фе-е-ри-я
@@ -82,7 +82,7 @@ Zero consonants between two vowels: at most one elsewhere in word:
 * дерибеи --> де-ри-бе-и
 * преодолея --> пре-о-до-ле-я
 
-Two or more consonants between two vowels: щр:
+12. Two or more consonants between two vowels: щр
 * нащрек --> на-щрек
 * поощрявам --> по-о-щря-вам
 * защриховам --> за-щри-хо-вам
@@ -91,7 +91,7 @@ Two or more consonants between two vowels: щр:
 * Вайерщрас --> ва-йер-щрас
 * Кьонигщрасе --> кьо-ниг-щра-се
 
-Two or more consonants between two vowels: щ + other sonorant before vowel:
+13. Two or more consonants between two vowels: щ + other sonorant before vowel
 * общност --> общ-ност
 * всъщност --> всъщ-ност
 * помощник --> по-мощ-ник
@@ -102,13 +102,13 @@ Two or more consonants between two vowels: щ + other sonorant before vowel:
 * съобщавам --> съ-об-ща-вам
 * въобще --> въ-об-ще
 
-Two or more consonants between two vowels: дж affricate present:
+14. Two or more consonants between two vowels: дж affricate present
 * манджа --> ман-джа
 * калайджия --> ка-лай-джи-я
 * авджия --> ав-джи-я
 * изджвака --> издж-ва-ка
 
-Two or more consonants between two vowels: adjacent sonorants or stops:
+15. Two or more consonants between two vowels: adjacent sonorants or stops
 * пленник --> плен-ник
 * майка --> май-ка
 * профашистки --> про-фа-шист-ки
@@ -116,7 +116,7 @@ Two or more consonants between two vowels: adjacent sonorants or stops:
 * крачка --> крач-ка
 * цедка --> цед-ка
 
-Two consonants between two vowels: other:
+16. Two consonants between two vowels: other
 * звезда --> звез-да
 * спринцовка --> сприн-цов-ка
 * бързо --> бър-зо
@@ -128,7 +128,7 @@ Two consonants between two vowels: other:
 * аншоа --> ан-шо-а
 * ядро --> я-дро
 
-Complex consonant clusters: general:
+17. Complex consonant clusters: general
 * сестра --> се-стра
 * царство --> цар-ство
 * нравствен --> нрав-ствен
@@ -139,10 +139,10 @@ Complex consonant clusters: general:
 * робство --> роб-ство
 * транспорт --> тран-спорт
 
-Consonant cluster not split: св:
+18. Consonant cluster not split: св
 * посвикна --> по-свик-на
 
-Complex consonant clusters: без- + lower/equal sonority:
+19. Morphological prefix handling: без- + equal sonority
 * безсилен --> без-си-лен
 * безшумен --> без-шу-мен
 * безвъзвратен --> без-въз-вра-тен
@@ -151,7 +151,7 @@ Complex consonant clusters: без- + lower/equal sonority:
 * безхлебна --> без-хле-бна
 * безвремие --> без-вре-ми-е
 
-Complex consonant clusters: без- + rising sonority:
+20. Morphological prefix handling: без- + higher sonority
 * безмерен --> без-ме-рен
 * безличен --> бе-зли-чен
 * безнаказан --> бе-зна-ка-зан
@@ -166,4 +166,24 @@ Complex consonant clusters: без- + rising sonority:
 * безкраен --> бе-зкра-ен
 * безбрежен --> бе-збре-жен
 * бездна --> безд-на
+
+21. Morphological prefix handling: из- + equal sonority
+* изхвърлям --> из-хвър-лям
+* изстена --> из-сте-на
+* извор --> из-вор
+* извозвам --> из-воз-вам
+* извлача --> из-вла-ча
+* изхрачване --> из-храч-ва-не
+* изшмугна --> из-шмуг-на
+* изживяното --> из-жи-вя-но-то
+
+22. Morphological prefix handling: из- + higher sonority
+* изненада --> и-зне-на-да
+* излъгах --> и-злъ-гах
+* измяна --> из-мя-на
+* изрод --> и-зрод
+* изтрезвително --> и-зтрез-ви-тел-но
+* изпроставял --> и-зпро-ста-вял
+* изключвам --> и-зключ-вам
+* изблиза --> и-збли-за
 

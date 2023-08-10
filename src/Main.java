@@ -17,8 +17,11 @@ class TestCaseRunner {
     private final Syllabifier syllabifier = new Syllabifier();
 
     void runTests(List<TestCase> testCases) {
+        int counter = 0;
+
         for (var test : testCases) {
-            System.out.println(test.heading + ":");
+            ++ counter;
+            System.out.printf("%d. %s%n", counter, test.heading);
 
             test.examples.forEach(example -> {
                 var formatted = String.format("* %s --> %s",
@@ -94,14 +97,22 @@ public class Main {
                     "странство", "пространство", "робство", "транспорт"
             ),
             new TestCase("Consonant cluster not split: св", "посвикна"),
-            new TestCase("Complex consonant clusters: без- + lower/equal sonority",
+            new TestCase("Morphological prefix handling: без- + equal sonority",
                     "безсилен", "безшумен", "безвъзвратен", "безхаберен",
                     "безстрашен", "безхлебна", "безвремие"
             ),
-            new TestCase("Complex consonant clusters: без- + rising sonority",
+            new TestCase("Morphological prefix handling: без- + higher sonority",
                     "безмерен", "безличен", "безнаказан", "безразборен",
                     "бездетен", "безпардонен", "безтелесен", "безглав", "безчестен",
                     "безпризорен", "безгрешен", "безкраен", "безбрежен", "бездна"
+            ),
+            new TestCase("Morphological prefix handling: из- + equal sonority",
+                    "изхвърлям", "изстена", "извор", "извозвам",
+                    "извлача", "изхрачване", "изшмугна", "изживяното"
+            ),
+            new TestCase("Morphological prefix handling: из- + higher sonority",
+                    "изненада", "излъгах", "измяна", "изрод",
+                    "изтрезвително", "изпроставял", "изключвам", "изблиза"
             )
     );
 

@@ -49,14 +49,15 @@ public class Syllabifier {
                     continue;
                 }
 
-                // This is not the first vowel we're seeing.
-                // Determine the syllable onset within the
-                // consonants between the first vowel and this one.
-                int currOnset = findSyllableOnsetIdx(word, prevVowel, i);
-                syllables.add(word.substring(prevOnset, currOnset));
+                // This is not the first vowel we've seen. In-between
+                // the previous vowel and this one, there is a syllable
+                // break, and the first character after the break starts
+                // a new syllable.
+                int nextOnset = findNextSyllableOnset(word, prevVowel, i);
+                syllables.add(word.substring(prevOnset, nextOnset));
 
                 prevVowel = i;
-                prevOnset = currOnset;
+                prevOnset = nextOnset;
             }
         }
 
@@ -66,7 +67,7 @@ public class Syllabifier {
         return syllables;
     }
 
-    private int findSyllableOnsetIdx(String word, int leftVowel, int rightVowel) {
+    private int findNextSyllableOnset(String word, int leftVowel, int rightVowel) {
         int nCons = rightVowel - leftVowel - 1;
 
         // No consonants - syllable starts on rightVowel
