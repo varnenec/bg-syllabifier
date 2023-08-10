@@ -93,16 +93,21 @@ public class Main {
                     "сестра", "царство", "нравствен", "мандраджия", "мизансцен",
                     "странство", "пространство", "робство", "транспорт"
             ),
-            new TestCase("Complex consonant clusters: morphological prefixes",
-                    "бездомен", "бездна",
-                    "откачвам"
+            new TestCase("Consonant cluster not split: св", "посвикна"),
+            new TestCase("Complex consonant clusters: без- + lower/equal sonority",
+                    "безсилен", "безшумен", "безвъзвратен", "безхаберен",
+                    "безстрашен", "безхлебна", "безвремие"
             ),
-            new TestCase("Consonant cluster not split: св", "посвикна")
+            new TestCase("Complex consonant clusters: без- + rising sonority",
+                    "безмерен", "безличен", "безнаказан", "безразборен",
+                    "бездетен", "безпардонен", "безтелесен", "безглав", "безчестен",
+                    "безпризорен", "безгрешен", "безкраен", "безбрежен", "бездна"
+            )
     );
 
     public static void main(String[] args) {
         var testRunner = new TestCaseRunner();
-
+        
         testRunner.runTests(TEST_CASES);
     }
 }
