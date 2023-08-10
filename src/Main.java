@@ -37,7 +37,7 @@ public class Main {
 
     static final List<TestCase> TEST_CASES = Arrays.asList(
             new TestCase("Single-letter words",
-                    "в", "с", "у", "о", "ѝ"
+                    "а", "в", "е", "и", "ѝ", "о", "с", "у"
             ),
             new TestCase("Simple monosyllabic words",
                     "аз", "ти", "той", "тя", "във", "със"

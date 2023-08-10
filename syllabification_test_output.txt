@@ -1,9 +1,12 @@
 Single-letter words:
+* а --> а
 * в --> в
+* е --> е
+* и --> и
+* ѝ --> ѝ
+* о --> о
 * с --> с
 * у --> у
-* о --> о
-* ѝ --> ѝ
 
 Simple monosyllabic words:
 * аз --> аз
