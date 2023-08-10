@@ -35,7 +35,7 @@ public class SonorityModel {
         return sonorities;
     }
 
-    private static int getSonorityRank(char ch) {
+    public static int getSonorityRank(char ch) {
         if (LetterClassifier.isFricative(ch)) {
             return 1;
         }
