@@ -29,7 +29,7 @@ public class Syllabifier {
             entry("км", 1), entry("гм", 1), entry("кн", 1), entry("гн", 1),
             entry("дн", 1), entry("вн", 1), entry("дм", 1), entry("вм", 1),
             entry("зм", 1), entry("зд", 1), entry("зч", 1), entry("зц", 1),
-            entry("вк", 1), entry("вг", 1),
+            entry("вк", 1), entry("вг", 1), entry("дл", 1),
             entry("згн", 1), entry("здн", 2), entry("вдж", 1)
     );
 
