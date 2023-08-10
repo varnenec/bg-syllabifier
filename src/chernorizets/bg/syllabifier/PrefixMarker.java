@@ -25,7 +25,7 @@ class PrefixMarker {
             "без", "из", "въз", "раз", "екс", "таз",
 
             // ending in stops
-            "над", "под", "от"
+            "над", "под", "от", "пред"
     );
 
     static final char PREFIX_SEPARATOR = '|';

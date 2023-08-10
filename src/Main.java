@@ -97,6 +97,12 @@ public class Main {
                     "странство", "пространство", "робство", "транспорт"
             ),
             new TestCase("Consonant cluster not split: св", "посвикна"),
+            new TestCase("Forced syllable breaks: when absent",
+                    "скръндза", "годзила", "камикадзе"
+            ),
+            new TestCase("Forced syllable breaks: when present",
+                    "скрън.дза", "го.дзила", "камика.дзе"
+            ),
             new TestCase("Morphological prefix handling: без- + equal sonority",
                     "безсилен", "безшумен", "безвъзвратен", "безхаберен",
                     "безстрашен", "безхлебна", "безвремие"

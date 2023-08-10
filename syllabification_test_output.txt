@@ -142,7 +142,17 @@
 18. Consonant cluster not split: св
 * посвикна --> по-свик-на
 
-19. Morphological prefix handling: без- + equal sonority
+19. Forced syllable breaks: when absent
+* скръндза --> скрън-дза
+* годзила --> год-зи-ла
+* камикадзе --> ка-ми-кад-зе
+
+20. Forced syllable breaks: when present
+* скрън.дза --> скрън-дза
+* го.дзила --> го-дзи-ла
+* камика.дзе --> ка-ми-ка-дзе
+
+21. Morphological prefix handling: без- + equal sonority
 * безсилен --> без-си-лен
 * безшумен --> без-шу-мен
 * безвъзвратен --> без-въз-вра-тен
@@ -151,7 +161,7 @@
 * безхлебна --> без-хле-бна
 * безвремие --> без-вре-ми-е
 
-20. Morphological prefix handling: без- + higher sonority
+22. Morphological prefix handling: без- + higher sonority
 * безмерен --> без-ме-рен
 * безличен --> бе-зли-чен
 * безнаказан --> бе-зна-ка-зан
@@ -167,7 +177,7 @@
 * безбрежен --> бе-збре-жен
 * бездна --> безд-на
 
-21. Morphological prefix handling: из- + equal sonority
+23. Morphological prefix handling: из- + equal sonority
 * изхвърлям --> из-хвър-лям
 * изстена --> из-сте-на
 * извор --> из-вор
@@ -177,7 +187,7 @@
 * изшмугна --> из-шмуг-на
 * изживяното --> из-жи-вя-но-то
 
-22. Morphological prefix handling: из- + higher sonority
+24. Morphological prefix handling: из- + higher sonority
 * изненада --> и-зне-на-да
 * излъгах --> и-злъ-гах
 * измяна --> из-мя-на

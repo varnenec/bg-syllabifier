@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import static java.util.Map.entry;
 
 public class Syllabifier {
@@ -32,9 +34,11 @@ public class Syllabifier {
         if (norm.length() == 0) return List.of();
 
         long nVowels = countVowels(norm);
-        if (nVowels <= 1) return List.of(norm);
+        var syllables = (nVowels <= 1) ? List.of(norm) : syllabifyPoly(norm);
 
-        return syllabifyPoly(norm);
+        return syllables.stream()
+                .map(ForcedBreak::stripForcedBreaks)
+                .collect(Collectors.toList());
     }
 
     private List<String> syllabifyPoly(String word) {
@@ -71,7 +75,11 @@ public class Syllabifier {
         int nCons = rightVowel - leftVowel - 1;
 
         // No consonants - syllable starts on rightVowel
-        if (nCons == 0) return  rightVowel;
+        if (nCons == 0) return rightVowel;
+
+        // Check for forced breaks
+        int breakPos = ForcedBreak.findForcedBreak(word, leftVowel + 1, rightVowel);
+        if (breakPos != -1) return breakPos + 1;
 
         // Single consonant between two vowels - starts a syllable
         if (nCons == 1) return leftVowel + 1;
