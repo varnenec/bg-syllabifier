@@ -10,6 +10,17 @@ import static java.util.Map.entry;
 
 public class Syllabifier {
 
+    static class Context {
+        final String word;
+
+        final int prefixSeparationPos;
+
+        Context(String word, int pos) {
+            this.word = word;
+            this.prefixSeparationPos = pos;
+        }
+    }
+
     // Consonant clusters that exhibit rising sonority, but should be
     // broken up regardless to produce natural-sounding syllables.
     // The breakpoint for clusters of 3 or more consonants can vary -
@@ -44,6 +55,8 @@ public class Syllabifier {
     private List<String> syllabifyPoly(String word) {
         var syllables = new ArrayList<String>();
 
+        var ctx = new Context(word, PrefixSeparator.findSeparationPos(word));
+
         int prevVowel = -1; int prevOnset = 0;
         for (int i = 0; i < word.length(); i++) {
             if (LetterClassifier.isVowel(word.charAt(i))) {
@@ -57,7 +70,7 @@ public class Syllabifier {
                 // the previous vowel and this one, there is a syllable
                 // break, and the first character after the break starts
                 // a new syllable.
-                int nextOnset = findNextSyllableOnset(word, prevVowel, i);
+                int nextOnset = findNextSyllableOnset(ctx, prevVowel, i);
                 syllables.add(word.substring(prevOnset, nextOnset));
 
                 prevVowel = i;
@@ -71,14 +84,14 @@ public class Syllabifier {
         return syllables;
     }
 
-    private int findNextSyllableOnset(String word, int leftVowel, int rightVowel) {
+    private int findNextSyllableOnset(Context ctx, int leftVowel, int rightVowel) {
         int nCons = rightVowel - leftVowel - 1;
 
         // No consonants - syllable starts on rightVowel
         if (nCons == 0) return rightVowel;
 
         // Check for forced breaks
-        int breakPos = ForcedBreak.findForcedBreak(word, leftVowel + 1, rightVowel);
+        int breakPos = ForcedBreak.findForcedBreak(ctx.word, leftVowel + 1, rightVowel);
         if (breakPos != -1) return breakPos + 1;
 
         // Single consonant between two vowels - starts a syllable
@@ -87,12 +100,12 @@ public class Syllabifier {
         // Two or more consonants between the vowels. Find the point (if any)
         // where we break from rising sonority, and treat it as the tentative
         // onset of a new syllable.
-        var sonorities = SonorityModel.getSonorityModel(word, leftVowel + 1, rightVowel);
+        var sonorities = SonorityModel.getSonorityModel(ctx.word, leftVowel + 1, rightVowel);
         int sonorityBreak = findRisingSonorityBreak(sonorities);
 
         // Apply exceptions to the rising sonority principle to avoid
         // unnatural-sounding syllables.
-        return fixupSyllableOnset(word, leftVowel, sonorityBreak, rightVowel);
+        return fixupSyllableOnset(ctx, leftVowel, sonorityBreak, rightVowel);
     }
 
     // Find the first index where we break from the rule of rising sonority
@@ -112,7 +125,9 @@ public class Syllabifier {
         return sonorities.get(0).firstIndex();
     }
 
-    private int fixupSyllableOnset(String word, int leftVowel, int sonorityBreak, int rightVowel) {
+    private int fixupSyllableOnset(Context ctx, int leftVowel, int sonorityBreak, int rightVowel) {
+        var word = ctx.word;
+
         // 'щр' is a syllable onset when in front of a vowel.
         // Although 'щ' + sonorant technically follows rising sonority, syllables
         // like щнV, щлV etc. are unnatural and incorrect. In such cases, we treat
@@ -136,12 +151,18 @@ public class Syllabifier {
         // it obeys the principle of rising sonority.
         var maybeCluster = SONORITY_EXCEPTION_BREAK.keySet().stream()
                 .filter(cluster -> matches(word, cluster, leftVowel + 1, rightVowel))
-                .findFirst();
+                .findAny()
+                .orElse(null);
 
-        return maybeCluster.map(cluster -> {
-            int offset = SONORITY_EXCEPTION_BREAK.get(cluster);
+        if (maybeCluster != null) {
+            int offset = SONORITY_EXCEPTION_BREAK.get(maybeCluster);
             return leftVowel + 1 + offset;
-        }).orElse(sonorityBreak);
+        }
+
+        int separationPos = ctx.prefixSeparationPos;
+        if (separationPos > leftVowel && separationPos < rightVowel) return separationPos;
+
+        return sonorityBreak;
     }
 
     private String normalize(String word) {

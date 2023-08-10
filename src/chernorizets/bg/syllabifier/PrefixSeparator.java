@@ -12,7 +12,7 @@ import static chernorizets.bg.syllabifier.SonorityModel.getSonorityRank;
  * alone fails to determine syllable boundaries correctly in some cases -
  * that is, when certain prefixes should be kept together as a first syllable.
  */
-class PrefixMarker {
+class PrefixSeparator {
 
     /**
      * Affected prefixes. Each of them ends in a consonant that can be followed
@@ -28,16 +28,24 @@ class PrefixMarker {
             "над", "под", "от", "пред"
     );
 
-    static final char PREFIX_SEPARATOR = '|';
-
-    static String markPrefix(String word) {
-        var marked = new StringBuilder();
-
+    /**
+     * Finds the (zero-based) separation point between a
+     * morphological prefix and the rest of the word.
+     * <p>
+     * By convention, that's the index of the first character
+     * after the prefix.
+     *
+     * @param word the word to check for prefixes
+     *
+     * @return -1 if no prefix found, or if the separation point
+     * is handled by the sonority model. A non-zero index otherwise
+     */
+    static int findSeparationPos(String word) {
         var matchingPrefixes = PREFIXES.stream()
                 .filter(word::startsWith)
                 .collect(Collectors.toList());
 
-        if (matchingPrefixes.isEmpty()) return word;
+        if (matchingPrefixes.isEmpty()) return -1;
 
         if (matchingPrefixes.size() > 1) {
             // At present, no prefixes are substrings of each other, so this is a
@@ -46,23 +54,19 @@ class PrefixMarker {
         }
 
         var matchingPrefix = matchingPrefixes.get(0);
-        marked.append(matchingPrefix);
-
         char prefixLastChar = matchingPrefix.charAt(matchingPrefix.length() - 1);
         char firstCharAfterPrefix = word.charAt(matchingPrefix.length());
 
         // Prefixes followed by vowels do, in fact, get broken up.
-        if (LetterClassifier.isVowel(firstCharAfterPrefix)) return word;
+        if (LetterClassifier.isVowel(firstCharAfterPrefix)) return -1;
 
         if (getSonorityRank(prefixLastChar) < getSonorityRank(firstCharAfterPrefix)) {
             // This is precisely the case where rising sonority-based syllable breaking
-            // would try to lop off the last consonant of the prefix. Warn the syllabifier
-            // against doing that.
-            marked.append(PREFIX_SEPARATOR);
+            // would try to lop off the last consonant of the prefix.
+           return matchingPrefix.length();
         }
 
-        marked.append(word.substring(matchingPrefix.length()));
-        return marked.toString();
+        return -1;
     }
 
     public static void main(String ... args) {
@@ -74,6 +78,6 @@ class PrefixMarker {
                 "безмерен", "безличен", "безнаказан", "безразборен",
                 "бездетен", "безпардонен", "безтелесен", "безглав", "безчестен",
                 "безпризорен", "безгрешен", "безкраен", "безбрежен", "бездна"
-        ).forEach(word -> System.out.println(markPrefix(word)));
+        ).forEach(word -> System.out.println(word + ": " + findSeparationPos(word)));
     }
 }
