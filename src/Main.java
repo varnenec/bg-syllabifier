@@ -98,10 +98,10 @@ public class Main {
             ),
             new TestCase("Consonant cluster not split: св", "посвикна"),
             new TestCase("Forced syllable breaks: when absent",
-                    "скръндза", "годзила", "камикадзе"
+                    "скръндза", "годзила", "камикадзе", "надживея"
             ),
             new TestCase("Forced syllable breaks: when present",
-                    "скрън.дза", "го.дзила", "камика.дзе"
+                    "скрън.дза", "го.дзила", "камика.дзе", "над.живея"
             ),
             new TestCase("Morphological prefix handling: без- + equal sonority",
                     "безсилен", "безшумен", "безвъзвратен", "безхаберен",
@@ -119,6 +119,15 @@ public class Main {
             new TestCase("Morphological prefix handling: из- + higher sonority",
                     "изненада", "излъгах", "измяна", "изрод",
                     "изтрезвително", "изпроставял", "изключвам", "изблиза"
+            ),
+            new TestCase("Morphological prefix handling: над- + equal/lower sonority",
+                    "надслов", "надхвърлен", "надвиквам", "надве",
+                    "надгробен", "надпис", "надценявам", "надделея"
+            ),
+            new TestCase("Morphological prefix handling: над- + higher sonority",
+                    "надраствам", "надмощие", "ненадминат", "безнадзорен",
+                    "надница", "надменност", "надлъж", "надробен",
+                    "надрънкам", "надраскам", "надрусам", "надран"
             )
     );
 
