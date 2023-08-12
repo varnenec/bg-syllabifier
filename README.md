@@ -50,6 +50,9 @@ At a high level, the algorithm implemented here works like this:
   * while sonority analysis is the dominant way of determining syllable breaks, we support certain exceptions (see below)
 
 ### Rising Sonority Exceptions
+Custom lists of consonant clusters to keep intact or break apart are informed by the frequency-ordered general dictionary
+of the [Bulgarian National Corpus](https://dcl.bas.bg/bulnc/en/dostap/retchnitsi/). It provides a good overview of the
+behavior of clusters in common (and less common) words.
 
 #### User-provided syllable break markers
 Users can indicate a syllable break explicitly, using the full-stop character: `.` This is mainly useful when handling
@@ -84,6 +87,7 @@ When considering where to break up a consonant cluster, we proceed in the follow
 * check for clusters to break - if there's a match, break up the cluster as appropriate
 * check for clusters to keep - if there's a match, keep the cluster
 * check whether the cluster contains a consonant following a morphological prefix (precomputed at start). If so, it stats a new syllable.
+* otherwise, just use the sonority break determined in Step 2
 
 ## Feature Support
 We can currently handle the following types of input:
