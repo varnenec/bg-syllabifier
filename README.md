@@ -15,7 +15,7 @@ If you've read this and still want to play around with the code, here's the setu
 If you're compatible with the first two items on the above list, you should *probably* be fine.
 
 The project uses IntelliJ's build system, hence the IDE-specific files committed to the repository.
-It is distributed under the MIT License.
+The source code is distributed under the MIT License.
 
 ## Overview
 This prototype implements the syllable breaking rules described in the textbook [Съвременен български език](https://archive.org/details/20201113_20201113_0920/%D0%A1%D1%8A%D0%B2%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%20%D0%B1%D1%8A%D0%BB%D0%B3%D0%B0%D1%80%D1%81%D0%BA%D0%B8%20%D0%B5%D0%B7%D0%B8%D0%BA%20-%20%D0%A2%D0%BE%D0%B4%D0%BE%D1%80%20%D0%91%D0%BE%D1%8F%D0%B4%D0%B6%D0%B8%D0%B5%D0%B2%20.pdf/)
@@ -26,7 +26,7 @@ textbook is Chapter 7, pages 52-58. The rules are reproduced here in English in 
 2. When there is more than one consonant between two vowels, their assignment to syllables depends on other factors:
     1. A sonorant followed by another consonant stays with the first syllable: бър-зо, мал-ко, май-ка, бор-ба, тор-та, пар-ти-я, стом-на.
     2. If a fricative is followed by an obstruent, the boundary is ambiguous: те-сто and тес-то, ма-ска and мас-ка. The same is true when an obstruent is followed by a sonorant: ле-сно and лес-но, тя-сно and тяс-но, гре-бло and греб-ло, кре-сльо and крес-льо.
-    3. Two consecutive obstruents get split up: глед-ка, крач-ка, сек-та.
+    3. Two consecutive stops/affricates get split up: глед-ка, крач-ка, сек-та.
 3. A group of two or three consonants ordered by increasing sonority - such as стр, здр, скл, ств, шк, жд, ст, etc - is not typically split: ма-стило, се-стра, по-здрав. If, in such cases, morpheme boundaries are taken into account, another division is possible: круш-ка, при-каз-ка.
 4. Morphological prefixes and suffixes are typically kept together: без-домен, от-кач-вам. If that results in a following syllable that starts with a vowel, prefixes and suffixes get split up: и-зо-ра, бе-зи-ме-нен.
 
@@ -90,6 +90,8 @@ When considering where to break up a consonant cluster, we proceed in the follow
 * otherwise, just use the sonority break determined in Step 2
 
 ## Feature Support
+We don't currently support recognition of morphological suffixes.
+
 We can currently handle the following types of input:
 * words made from contiguous uppercase or lowercase Bulgarian Cyrillic letters
 * user-specified syllable breaks using `.` in such words
