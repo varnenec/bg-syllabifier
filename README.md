@@ -34,7 +34,7 @@ In the textbook, the sonority hierarchy is: fricatives < stops and affricates < 
 
 ### Note on the Bulgarian Alphabet
 While there's a mostly 1-to-1 correspondence between sounds and letters in Bulgarian, there are exceptions:
-* the letters `ю` (yu) and `я` (ya) represent either an iotated vowel, or palatalization of the preceding consonant. We treat them the same as other vowels.
+* the letters `ю` (yu) and `я` (ya) represent either an iotated vowel, or palatalization of the preceding consonant plus a vowel. We treat them the same as other vowels.
 * the letter `щ` stands for `шт`. For sonority analysis, we break it up into its two sonic components.
 * the digraph `дж` usually stands for the affricate corresponding to "j" in "jug". In rare cases, it is a `д` followed by a `ж`.
 * conversely, the digraph `дз` usually stands for a `д` followed by a `з`. In rare cases, it stands for the affricate in "a**dz**e".
