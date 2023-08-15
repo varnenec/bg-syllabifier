@@ -29,23 +29,27 @@ class PrefixSeparator {
     );
 
     /**
-     * Finds the (zero-based) separation point between a
-     * morphological prefix and the rest of the word.
+     * Finds the (zero-based) separation points between
+     * morphological prefixes and the rest of the word.
      * <p>
-     * By convention, that's the index of the first character
-     * after the prefix.
+     * Since prefixes can be combined, each separation point
+     * corresponds to where one prefix ends and (possibly) the
+     * next one starts.
+     * <p>
+     * By convention, a separation point is the index of the first character
+     * after a prefix.
      *
      * @param word the word to check for prefixes
      *
-     * @return -1 if no prefix found, or if the separation point
-     * is handled by the sonority model. A non-zero index otherwise
+     * @return empty list if no prefixes found, or if the separation points
+     * are handled by the sonority model. A non-zero list of string indices otherwise
      */
-    static int findSeparationPos(String word) {
+    static List<Integer> findSeparationPoints(String word) {
         var matchingPrefixes = PREFIXES.stream()
                 .filter(word::startsWith)
                 .collect(Collectors.toList());
 
-        if (matchingPrefixes.isEmpty()) return -1;
+        if (matchingPrefixes.isEmpty()) return List.of();
 
         if (matchingPrefixes.size() > 1) {
             // At present, no prefixes are substrings of each other, so this is a
@@ -58,15 +62,15 @@ class PrefixSeparator {
         char firstCharAfterPrefix = word.charAt(matchingPrefix.length());
 
         // Prefixes followed by vowels do, in fact, get broken up.
-        if (LetterClassifier.isVowel(firstCharAfterPrefix)) return -1;
+        if (LetterClassifier.isVowel(firstCharAfterPrefix)) return List.of();
 
         if (getSonorityRank(prefixLastChar) < getSonorityRank(firstCharAfterPrefix)) {
             // This is precisely the case where rising sonority-based syllable breaking
             // would try to lop off the last consonant of the prefix.
-           return matchingPrefix.length();
+           return List.of(matchingPrefix.length());
         }
 
-        return -1;
+        return List.of();
     }
 
     public static void main(String ... args) {
@@ -78,6 +82,6 @@ class PrefixSeparator {
                 "безмерен", "безличен", "безнаказан", "безразборен",
                 "бездетен", "безпардонен", "безтелесен", "безглав", "безчестен",
                 "безпризорен", "безгрешен", "безкраен", "безбрежен", "бездна"
-        ).forEach(word -> System.out.println(word + ": " + findSeparationPos(word)));
+        ).forEach(word -> System.out.println(word + ": " + findSeparationPoints(word)));
     }
 }

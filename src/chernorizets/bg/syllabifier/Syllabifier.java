@@ -1,9 +1,6 @@
 package chernorizets.bg.syllabifier;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Map.entry;
@@ -13,11 +10,11 @@ public class Syllabifier {
     static class Context {
         final String word;
 
-        final int prefixSeparationPos;
+        final List<Integer> prefixSeparationPoints;
 
-        Context(String word, int pos) {
+        Context(String word, List<Integer> separationPoints) {
             this.word = word;
-            this.prefixSeparationPos = pos;
+            this.prefixSeparationPoints = Collections.unmodifiableList(separationPoints);
         }
     }
 
@@ -55,7 +52,7 @@ public class Syllabifier {
     private List<String> syllabifyPoly(String word) {
         var syllables = new ArrayList<String>();
 
-        var ctx = new Context(word, PrefixSeparator.findSeparationPos(word));
+        var ctx = new Context(word, PrefixSeparator.findSeparationPoints(word));
 
         int prevVowel = -1; int prevOnset = 0;
         for (int i = 0; i < word.length(); i++) {
@@ -159,10 +156,13 @@ public class Syllabifier {
             return leftVowel + 1 + offset;
         }
 
-        int separationPos = ctx.prefixSeparationPos;
-        if (separationPos > leftVowel && separationPos < rightVowel) return separationPos;
-
-        return sonorityBreak;
+        // Check for prefix separation points. If one is found, return
+        // that, otherwise return the sonority break.
+        List<Integer> separationPoints = ctx.prefixSeparationPoints;
+        return separationPoints.stream()
+                .filter(pos -> pos > leftVowel && pos < rightVowel)
+                .findAny()
+                .orElse(sonorityBreak);
     }
 
     private String normalize(String word) {
