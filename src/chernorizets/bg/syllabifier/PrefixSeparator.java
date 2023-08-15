@@ -21,11 +21,26 @@ class PrefixSeparator {
      * glue it to the onset of the next syllable.
      */
     static final List<String> PREFIXES = Arrays.asList(
+            // без- family
+            "без",
+
+            // из- family
+            "безиз", "наиз", "поиз", "произ", "преиз", "неиз", "из",
+
+            // въз- family
+            "безвъз", "превъз", "невъз", "въз",
+
+            // раз- family
+            "безраз", "предраз", "пораз", "нараз", "прераз", "нераз", "раз",
+
+            // от- family
+            "неот", "поот", "от",
+
             // ending in fricatives
-            "без", "из", "въз", "раз", "екс", "таз",
+            "екс", "таз",
 
             // ending in stops
-            "от", "пред"
+            "пред"
     );
 
     /**
@@ -45,32 +60,21 @@ class PrefixSeparator {
      * are handled by the sonority model. A non-zero list of string indices otherwise
      */
     static List<Integer> findSeparationPoints(String word) {
-        var matchingPrefixes = PREFIXES.stream()
+        return PREFIXES.stream()
                 .filter(word::startsWith)
+                .filter(pref -> followedByHigherSonorityCons(pref, word))
+                .map(String::length)
                 .collect(Collectors.toList());
+    }
 
-        if (matchingPrefixes.isEmpty()) return List.of();
-
-        if (matchingPrefixes.size() > 1) {
-            // At present, no prefixes are substrings of each other, so this is a
-            // sanity guard.
-            throw new RuntimeException("More than one matching prefix: " + matchingPrefixes);
-        }
-
-        var matchingPrefix = matchingPrefixes.get(0);
-        char prefixLastChar = matchingPrefix.charAt(matchingPrefix.length() - 1);
-        char firstCharAfterPrefix = word.charAt(matchingPrefix.length());
+    private static boolean followedByHigherSonorityCons(String prefix, String word) {
+        char prefixLastChar = prefix.charAt(prefix.length() - 1);
+        char firstCharAfterPrefix = word.charAt(prefix.length());
 
         // Prefixes followed by vowels do, in fact, get broken up.
-        if (LetterClassifier.isVowel(firstCharAfterPrefix)) return List.of();
+        if (LetterClassifier.isVowel(firstCharAfterPrefix)) return false;
 
-        if (getSonorityRank(prefixLastChar) < getSonorityRank(firstCharAfterPrefix)) {
-            // This is precisely the case where rising sonority-based syllable breaking
-            // would try to lop off the last consonant of the prefix.
-           return List.of(matchingPrefix.length());
-        }
-
-        return List.of();
+        return getSonorityRank(prefixLastChar) < getSonorityRank(firstCharAfterPrefix);
     }
 
     public static void main(String ... args) {
