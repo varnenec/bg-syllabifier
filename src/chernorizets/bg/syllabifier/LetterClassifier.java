@@ -28,7 +28,7 @@ class LetterClassifier {
     }
 
     static boolean isConsonant(char ch) {
-        return ch == 'щ'
+        return ch == 'щ' || ch == 'ў'
                 || isSonorant(ch)
                 || isStop(ch)
                 || isFricative(ch)

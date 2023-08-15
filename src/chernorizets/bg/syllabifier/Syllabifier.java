@@ -27,6 +27,7 @@ public class Syllabifier {
             entry("дн", 1), entry("вн", 1), entry("дм", 1), entry("вм", 1),
             entry("зм", 1), entry("зд", 1), entry("зч", 1), entry("зц", 1),
             entry("вк", 1), entry("вг", 1), entry("дл", 1), entry("жд", 1),
+            entry("ўл", 1), entry("ўр", 1),
             entry("згн", 1), entry("здн", 2), entry("вдж", 1)
     );
 
@@ -37,15 +38,15 @@ public class Syllabifier {
     );
 
     public List<String> syllabify(String word) {
-        var norm = normalize(word);
+        var norm = normalizeWord(word);
 
-        if (norm.length() == 0) return List.of();
+        if (norm.isEmpty()) return List.of();
 
         long nVowels = countVowels(norm);
         var syllables = (nVowels <= 1) ? List.of(norm) : syllabifyPoly(norm);
 
         return syllables.stream()
-                .map(ForcedBreak::stripForcedBreaks)
+                .map(this::normalizeSyllable)
                 .collect(Collectors.toList());
     }
 
@@ -165,10 +166,17 @@ public class Syllabifier {
                 .orElse(sonorityBreak);
     }
 
-    private String normalize(String word) {
+    private String normalizeWord(String word) {
         if (word == null) return "";
 
         return word.trim().toLowerCase();
+    }
+
+    private String normalizeSyllable(String syllable) {
+        var normalized = ForcedBreak.stripForcedBreaks(syllable);
+        normalized = normalized.replaceAll("ў", "у");
+
+        return normalized;
     }
 
     private boolean matches(String str, String sub, int startIdx, int endIdx) {

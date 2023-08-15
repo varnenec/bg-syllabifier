@@ -40,7 +40,7 @@ public class SonorityModel {
             return 1;
         }
 
-        if (LetterClassifier.isStop(ch) || LetterClassifier.isAffricate(ch)) {
+        if (ch == 'ў' || LetterClassifier.isStop(ch) || LetterClassifier.isAffricate(ch)) {
             return 2;
         }
 

@@ -95,6 +95,7 @@ We don't currently support recognition of morphological suffixes.
 We can currently handle the following types of input:
 * words made from contiguous uppercase or lowercase Bulgarian Cyrillic letters
 * user-specified syllable breaks using `.` in such words
+* using `ў` to represent the rare consonant /w/, mostly from English loanwords
 
 We **don't** currently correctly handle the following types of input:
 * compound words with hyphens: e.g. джаста-праста
