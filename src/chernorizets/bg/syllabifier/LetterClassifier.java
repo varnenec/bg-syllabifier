@@ -8,7 +8,7 @@ class LetterClassifier {
     );
 
     static final Set<Character> SONORANTS = Set.of(
-            'л', 'м', 'н', 'р', 'й'
+            'л', 'м', 'н', 'р', 'й', 'ў'
     );
 
     static final Set<Character> STOPS = Set.of(
@@ -28,11 +28,9 @@ class LetterClassifier {
     }
 
     static boolean isConsonant(char ch) {
-        return ch == 'щ' || ch == 'ў'
+        return ch == 'щ'
                 || isSonorant(ch)
-                || isStop(ch)
-                || isFricative(ch)
-                || isAffricate(ch);
+                || isObstruent(ch);
     }
 
     static boolean isPalatalizer(char ch) {

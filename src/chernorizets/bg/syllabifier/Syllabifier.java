@@ -27,8 +27,7 @@ public class Syllabifier {
             entry("дн", 1), entry("вн", 1), entry("дм", 1), entry("вм", 1),
             entry("зм", 1), entry("зд", 1), entry("зч", 1), entry("зц", 1),
             entry("вк", 1), entry("вг", 1), entry("дл", 1), entry("жд", 1),
-            entry("ўл", 1), entry("ўр", 1),
-            entry("згн", 1), entry("здн", 2), entry("вдж", 1)
+            entry("ўнл", 2), entry("згн", 1), entry("здн", 2), entry("вдж", 1)
     );
 
     // Consonant clusters that don't follow the rising sonority principle,
