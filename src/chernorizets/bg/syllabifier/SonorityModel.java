@@ -36,7 +36,7 @@ public class SonorityModel {
     }
 
     public static int getSonorityRank(char ch) {
-        if (LetterClassifier.isFricative(ch)) {
+        if (LetterClassifier.isFricative(ch) && ch != 'в') {
             return 1;
         }
 
@@ -44,12 +44,16 @@ public class SonorityModel {
             return 2;
         }
 
-        if (LetterClassifier.isSonorant(ch)) {
+        if (ch == 'в') {
             return 3;
         }
 
-        if (LetterClassifier.isVowel(ch)) {
+        if (LetterClassifier.isSonorant(ch)) {
             return 4;
+        }
+
+        if (LetterClassifier.isVowel(ch)) {
+            return 5;
         }
 
         return 0;

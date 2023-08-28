@@ -24,7 +24,7 @@ public class Syllabifier {
     // here we provide a zero-based offset within the cluster for each.
     static final Map<String, Integer> SONORITY_EXCEPTION_BREAK = Map.ofEntries(
             entry("км", 1), entry("гм", 1), entry("кн", 1), entry("гн", 1),
-            entry("дн", 1), entry("вн", 1), entry("дм", 1), entry("вм", 1),
+            entry("дн", 1), entry("дм", 1),
             entry("зм", 1), entry("зд", 1), entry("зч", 1), entry("зц", 1),
             entry("вк", 1), entry("вг", 1), entry("дл", 1), entry("жд", 1),
             entry("ўнл", 2), entry("згн", 1), entry("здн", 2), entry("вдж", 1)
@@ -33,7 +33,7 @@ public class Syllabifier {
     // Consonant clusters that don't follow the rising sonority principle,
     // but should regardless be kept together.
     static final List<String> SONORITY_EXCEPTION_KEEP = Arrays.asList(
-            "ств", "св", "вс"
+            "вс", "вз"
     );
 
     public List<String> syllabify(String word) {
